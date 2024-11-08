@@ -95,7 +95,6 @@ public class UsuarioEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		UsuarioEntity other = (UsuarioEntity) obj;
-		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(login, other.login)
-				&& Objects.equals(nome, other.nome) && Objects.equals(senha, other.senha);
+		return Objects.equals(id, other.id);
 	}
 }

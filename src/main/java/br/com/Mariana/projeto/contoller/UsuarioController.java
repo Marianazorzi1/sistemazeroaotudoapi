@@ -18,21 +18,23 @@ import br.com.Mariana.projeto.dto.UsuarioDTO;
 import br.com.Mariana.projeto.service.UsuarioService;
 
 @RestController
-@RequestMapping (value = "/usuario")
+@RequestMapping(value = "/usuario")
 @CrossOrigin
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
+	
 	@GetMapping
-	public List<UsuarioDTO>ListarTodos(){
+	public List<UsuarioDTO> listarTodos(){
 		return usuarioService.listarTodos();
-		
 	}
+
 	@PostMapping
 	public void inserir(@RequestBody UsuarioDTO usuario) {
 		usuarioService.inserir(usuario);
 	}
+	
 	@PutMapping
 	public UsuarioDTO alterar(@RequestBody UsuarioDTO usuario) {
 		return usuarioService.alterar(usuario);
