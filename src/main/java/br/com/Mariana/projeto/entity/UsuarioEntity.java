@@ -1,22 +1,37 @@
 package br.com.Mariana.projeto.entity;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.Mariana.projeto.dto.UsuarioDTO;
+import br.com.Mariana.projeto.entity.enums.TipoSituacaoUsuario;
+import io.jsonwebtoken.lang.Collections;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name= "NPL_USUARIO")
-public class UsuarioEntity {
+@Getter
+@AllArgsConstructor
+
+
+
+
+public class UsuarioEntity  implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,6 +41,11 @@ public class UsuarioEntity {
 	
 	public Long getId() {
 		return id;
+	}
+	public UsuarioEntity(String login, String senha) {
+		this.login = login;
+		this.senha = senha;
+		
 	}
 
 	public void setId(Long id) {
@@ -73,6 +93,10 @@ public class UsuarioEntity {
 	@Column (nullable = false)
 	private String email;
 	
+	@Enumerated(EnumType.STRING)
+	@Column	(nullable = false)
+	private TipoSituacaoUsuario situacao = TipoSituacaoUsuario.ATIVO;
+	
 	public UsuarioEntity(UsuarioDTO usuario) {
 		BeanUtils.copyProperties(usuario, this);
 	}
@@ -96,5 +120,33 @@ public class UsuarioEntity {
 			return false;
 		UsuarioEntity other = (UsuarioEntity) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	    return Collections.emptyList();
+	}
+
+	@Override
+	public String getUsername() {
+	
+		return login;
+	}
+
+	@Override
+	public String getPassword() {
+		
+		return senha;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	public void setSituacao(TipoSituacaoUsuario situacao) {
+		this.situacao = situacao;
 	}
 }

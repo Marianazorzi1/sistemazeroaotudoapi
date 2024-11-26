@@ -22,16 +22,18 @@ public class UsuarioService {
 		return usuarios.stream().map(UsuarioDTO::new).toList();
 	}
 	
-	public void  inserir(UsuarioDTO usuario) {
-		UsuarioEntity UsuarioEntity = new UsuarioEntity(usuario);
-		UsuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
-		usuarioRepository.save(UsuarioEntity);
+	public void inserir(UsuarioDTO usuario) {
+		UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		usuarioRepository.save(usuarioEntity);
 	}
 	
 	public UsuarioDTO alterar(UsuarioDTO usuario) {
-		UsuarioEntity UsuarioEntity = new UsuarioEntity(usuario);
-		return new UsuarioDTO (usuarioRepository.save(UsuarioEntity));
+		UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+		usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		return new UsuarioDTO(usuarioRepository.save(usuarioEntity));
 	}
+	
 	public void excluir(Long id) {
 		UsuarioEntity usuario = usuarioRepository.findById(id).get();
 		usuarioRepository.delete(usuario);

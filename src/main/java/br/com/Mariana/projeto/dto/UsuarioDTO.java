@@ -3,6 +3,7 @@ package br.com.Mariana.projeto.dto;
 import org.springframework.beans.BeanUtils;
 
 import br.com.Mariana.projeto.entity.UsuarioEntity;
+import br.com.Mariana.projeto.entity.enums.TipoSituacaoUsuario;
 import jakarta.persistence.Column;
 
 public class UsuarioDTO {
@@ -12,7 +13,14 @@ public class UsuarioDTO {
 	private String login;
 	private String senha;
 	private String email;
+	private TipoSituacaoUsuario situacao;
 	
+	public TipoSituacaoUsuario getSituacao() {
+		return situacao;
+	}
+	public void setSituacao(TipoSituacaoUsuario situacao) {
+		this.situacao = situacao;
+	}
 	public UsuarioDTO(UsuarioEntity usuario) {
 		BeanUtils.copyProperties(usuario, this);
 	}
